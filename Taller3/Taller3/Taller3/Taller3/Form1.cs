@@ -292,13 +292,18 @@ namespace Taller3
                 dic.Add("Veredas", vereda);
                 dic.Add("Coliseos", coliseo);
                 dic.Add("Barrios", barrios);
+
                 
+
 
                 foreach (KeyValuePair<string, int> d in dic)
                 {
                     chart1.Series["Series1"].Points.AddXY(d.Key, d.Value);
                     
+                    
                 }
+
+                chart1.Enabled = false;
             }
         }   
     }
