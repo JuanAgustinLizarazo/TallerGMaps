@@ -207,8 +207,15 @@ namespace Taller3
 
         private void chart1_Click(object sender, EventArgs e)
         {
-            chart1.Series["Series1"].LegendText = "Zonas";
             Dictionary<string, int> dic = new Dictionary<string, int>();
+
+            int parques = 0;
+            int museos = 0;
+            int casaCultural = 0;
+            int corregimiento = 0;
+            int vereda = 0;
+            int otro = 0;
+
             string rutaCompleta = txtB_Direccion.Text;
 
             string line = "";
@@ -221,6 +228,7 @@ namespace Taller3
                 int b = 5;
 
                 string[][] puntos = new String[150][];
+               
 
                 int contador = 0;
 
@@ -231,7 +239,8 @@ namespace Taller3
                         line = file.ReadLine();
                     }
                     gru = line.Split(',');
-
+                    chart1.Series["Series1"].LegendText = gru[0];
+                    
                     for (int i = 0; i < gru.Length; i++)
                     {
 
@@ -241,47 +250,39 @@ namespace Taller3
                         }
                         puntos[contador][i] = gru[i];
 
+                        if (gru[1].Contains("Parque"))
+                        {
+                            parques++;
+                        }
+                        else if (gru[1].Contains("Museo"))
+                        {
+                            museos++;
+                        }
+                        else if (gru[1].Contains("cultural"))
+                        {
+                            casaCultural++;
+                        }
+                        else if (gru[1].Contains("Corregimiento"))
+                        {
+                            corregimiento++;
+                        }
+                        else if (gru[1].Contains("Vereda"))
+                        {
+                            vereda++;
+                        }
+                        else
+                        {
+                            otro++;
+                        }
+
 
                     }
                     contador++;
 
 
                 }
-                int parques = 0;
-                int museos = 0;
-                int casaCultural = 0;
-                int corregimiento = 0;
-                int vereda = 0;
-                int otro = 0;
+               
 
-                for (int j = 0; j < puntos.Length; j++)
-                {
-                    if (puntos[j][1].Contains("Parque"))
-                    {
-                        parques++;
-                    }
-                    else if (puntos[j][1].Contains("Museo"))
-                    {
-                        museos++;
-                    }
-                    else if (puntos[j][1].Contains("cultural"))
-                    {
-                        casaCultural++;
-                    }
-                    else if (puntos[j][1].Contains("Corregimiento"))
-                    {
-                        corregimiento++;
-                    }
-                    else if (puntos[j][1].Contains("Vereda"))
-                    {
-                        vereda++;
-                    }
-                    else
-                    {
-                        otro++;
-                    }
-
-                }
                 dic.Add("Parques", parques);
                 dic.Add("Museos", museos);
                 dic.Add("Zonas Culturales", casaCultural);
@@ -291,7 +292,8 @@ namespace Taller3
 
                 foreach (KeyValuePair<string, int> d in dic)
                 {
-                    chart1.Series["Zonas"].Points.AddXY(d.Key, d.Value);
+                    chart1.Series["Series1"].Points.AddXY(d.Key, d.Value);
+                    
                 }
             }
         }   
