@@ -211,10 +211,11 @@ namespace Taller3
 
             int parques = 0;
             int museos = 0;
-            int casaCultural = 0;
             int corregimiento = 0;
             int vereda = 0;
-            int otro = 0;
+            int coliseo = 0;
+            int barrios = 0;
+            
 
             string rutaCompleta = txtB_Direccion.Text;
 
@@ -239,40 +240,43 @@ namespace Taller3
                         line = file.ReadLine();
                     }
                     gru = line.Split(',');
-                    chart1.Series["Series1"].LegendText = gru[0];
-                    
+                    int total = parques + museos + corregimiento + coliseo + vereda + barrios;
+                    chart1.Series["Series1"].LegendText = "Cantidad" + "\n" + "zonas" + "\n" + "wifi" + "\n" +
+                        "\n"+ "\n" + "Parques: " + parques + "\n" + "Museos: " + museos + "\n" + "corregimientos: " + corregimiento + "\n" + "Coliseo: " + coliseo+ "\n" + "Veredas: " + vereda + "\n" + "Barrios: " + barrios+"\n"+"Total: " + total;
+
+
                     for (int i = 0; i < gru.Length; i++)
                     {
 
                         if (i == 0)
                         {
                             puntos[contador] = new string[gru.Length];
-                        }
+                        
                         puntos[contador][i] = gru[i];
 
-                        if (gru[1].Contains("Parque"))
+                        if (gru[1].Contains("Parque")&& (!gru[1].Contains("corregimiento")|| !gru[1].Contains("Corregimiento")))
                         {
                             parques++;
                         }
-                        else if (gru[1].Contains("Museo"))
+                        else if (gru[1].Contains("Museo")|| gru[1].Contains("museo"))
                         {
                             museos++;
                         }
-                        else if (gru[1].Contains("cultural"))
-                        {
-                            casaCultural++;
-                        }
-                        else if (gru[1].Contains("Corregimiento"))
+                        else if (gru[1].Contains("Corregimiento")|| gru[1].Contains("corregimiento"))
                         {
                             corregimiento++;
                         }
-                        else if (gru[1].Contains("Vereda"))
+                        else if (gru[1].Contains("Vereda")|| gru[1].Contains("vereda"))
                         {
                             vereda++;
-                        }
+                        }else if(gru[1].Contains("Coliseo")|| gru[1].Contains("coliseo"))
+                            {
+                                coliseo++;
+                            }
                         else
                         {
-                            otro++;
+                            barrios++;
+                        }
                         }
 
 
@@ -281,14 +285,13 @@ namespace Taller3
 
 
                 }
-               
-
                 dic.Add("Parques", parques);
-                dic.Add("Museos", museos);
-                dic.Add("Zonas Culturales", casaCultural);
+                dic.Add("Museos",museos);
                 dic.Add("Corregimientos", corregimiento);
                 dic.Add("Veredas", vereda);
-                dic.Add("Otras", otro);
+                dic.Add("Coliseos", coliseo);
+                dic.Add("Barrios", barrios);
+                
 
                 foreach (KeyValuePair<string, int> d in dic)
                 {

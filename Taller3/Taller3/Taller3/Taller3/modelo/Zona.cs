@@ -98,7 +98,7 @@ namespace Taller3.modelo
                         sb.Remove(0, 1);
                         auxiliar = sb.ToString();
                         string auxiliar2 = auxiliar.Replace('.', ',');
-                        coordenada1 = Double.Parse(auxiliar2); 
+                        //coordenada1 = Double.Parse(auxiliar2); 
                     }
                     if (i == 4)
                     {
@@ -108,7 +108,7 @@ namespace Taller3.modelo
                         StringBuilder sb = new StringBuilder(auxiliar);
                         sb.Remove(auxiliar.Length - 1, 1);
                         string auxiliar2 = auxiliar.Replace('.', ',');
-                        coordenada2 = Double.Parse(auxiliar2);
+                        //coordenada2 = Double.Parse(auxiliar2);
                     }
                 }
             }
