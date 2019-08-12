@@ -23,13 +23,13 @@ namespace Taller3
         DataTable dt;
         private modelo.Ubicacion ubicacion;
         string municipioActual;
-        
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        
+
         private void Label2_Click(object sender, EventArgs e)
         {
 
@@ -71,12 +71,12 @@ namespace Taller3
 
                 while ((line = file.ReadLine()) != null)                //Leer linea por linea
                 {
-                   if(contador == 0)
+                    if (contador == 0)
                     {
                         line = file.ReadLine();
                     }
                     gru = line.Split(',');
-                   
+
                     for (int i = 0; i < gru.Length; i++)
                     {
 
@@ -85,16 +85,16 @@ namespace Taller3
                             puntos[contador] = new string[gru.Length];
                         }
                         puntos[contador][i] = gru[i];
-                        
+
 
                     }
                     contador++;
-                    
+
 
                 }
 
                 ubicacion = new modelo.Ubicacion();
-                
+
                 ubicacion.reconocimientoZonas(contador, puntos);
 
                 siguienteEtapa();
@@ -107,13 +107,13 @@ namespace Taller3
         public void llenarOpciones()
         {
             Array arregloAuxiliar = ubicacion.clasificacionInformacion();
-            for(int i = 0;i < arregloAuxiliar.Length; i++)
+            for (int i = 0; i < arregloAuxiliar.Length; i++)
             {
                 Label lblAux = new Label();
-                 
+
                 listaEleccion.Items.Add(arregloAuxiliar.GetValue(i));
             }
-           
+
         }
         public void siguienteEtapa()
         {
@@ -134,7 +134,7 @@ namespace Taller3
         }
         private void PrimerPanel_Paint(object sender, PaintEventArgs e)
         {
-  
+
 
         }
 
@@ -149,13 +149,13 @@ namespace Taller3
             String auxCadena = listaEleccion.SelectedItem.ToString();
             listaSeleccion.Items.Clear();
             municipioActual = auxCadena;
-            if(markerOverlay != null)
+            if (markerOverlay != null)
             {
                 markerOverlay.Markers.Clear();
             }
-            
+
             List<modelo.Zona> listaAuxiliar = ubicacion.entregaDeInformacion(auxCadena);
-            for(int i = 0; i < listaAuxiliar.Count; i++)
+            for (int i = 0; i < listaAuxiliar.Count; i++)
             {
                 String auxCad = listaAuxiliar.ElementAt(i).getPuntoUbicacion();
                 listaSeleccion.Items.Add(auxCad);
@@ -184,26 +184,116 @@ namespace Taller3
 
         private void Btn_Ubicar_Click(object sender, EventArgs e)
         {
-            
+
             List<modelo.Zona> listaAuxiliar = ubicacion.entregaDeInformacion(municipioActual);
 
-                markerOverlay.Markers.Clear();
-                modelo.Zona zonaAux = listaAuxiliar.ElementAt(listaSeleccion.SelectedIndex);
-                marker = new GMarkerGoogle(new PointLatLng(zonaAux.getCoordenada1(), zonaAux.getCoordenada2()), GMarkerGoogleType.red);
-                gMap.Position = new PointLatLng(zonaAux.getCoordenada1(), zonaAux.getCoordenada2());
-                gMap.Zoom = 16;
-                markerOverlay.Markers.Add(marker);
-                marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                marker.ToolTipText = string.Format("Municipio: {0}\nPunto de Ubicacion: {1}\nDireccion: {2}\nLatitud: {3}\nLongitud: {4}", zonaAux.getMunicipio(), zonaAux.getPuntoUbicacion(), zonaAux.getDireccion(), zonaAux.getCoordenada1(), zonaAux.getCoordenada2());
-                gMap.Overlays.Add(markerOverlay);
-           
-            
+            markerOverlay.Markers.Clear();
+            modelo.Zona zonaAux = listaAuxiliar.ElementAt(listaSeleccion.SelectedIndex);
+            marker = new GMarkerGoogle(new PointLatLng(zonaAux.getCoordenada1(), zonaAux.getCoordenada2()), GMarkerGoogleType.red);
+            gMap.Position = new PointLatLng(zonaAux.getCoordenada1(), zonaAux.getCoordenada2());
+            gMap.Zoom = 16;
+            markerOverlay.Markers.Add(marker);
+            marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+            marker.ToolTipText = string.Format("Municipio: {0}\nPunto de Ubicacion: {1}\nDireccion: {2}\nLatitud: {3}\nLongitud: {4}", zonaAux.getMunicipio(), zonaAux.getPuntoUbicacion(), zonaAux.getDireccion(), zonaAux.getCoordenada1(), zonaAux.getCoordenada2());
+            gMap.Overlays.Add(markerOverlay);
+
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-    }
 
+        private void chart1_Click(object sender, EventArgs e)
+        {
+            chart1.Series["Series1"].LegendText = "Zonas";
+            Dictionary<string, int> dic = new Dictionary<string, int>();
+            string rutaCompleta = txtB_Direccion.Text;
+
+            string line = "";
+            using (StreamReader file = new StreamReader(rutaCompleta))
+            {
+                string[] gru;
+
+                int a = 150;
+
+                int b = 5;
+
+                string[][] puntos = new String[150][];
+
+                int contador = 0;
+
+                while ((line = file.ReadLine()) != null)                //Leer linea por linea
+                {
+                    if (contador == 0)
+                    {
+                        line = file.ReadLine();
+                    }
+                    gru = line.Split(',');
+
+                    for (int i = 0; i < gru.Length; i++)
+                    {
+
+                        if (i == 0)
+                        {
+                            puntos[contador] = new string[gru.Length];
+                        }
+                        puntos[contador][i] = gru[i];
+
+
+                    }
+                    contador++;
+
+
+                }
+                int parques = 0;
+                int museos = 0;
+                int casaCultural = 0;
+                int corregimiento = 0;
+                int vereda = 0;
+                int otro = 0;
+
+                for (int j = 0; j < puntos.Length; j++)
+                {
+                    if (puntos[j][1].Contains("Parque"))
+                    {
+                        parques++;
+                    }
+                    else if (puntos[j][1].Contains("Museo"))
+                    {
+                        museos++;
+                    }
+                    else if (puntos[j][1].Contains("cultural"))
+                    {
+                        casaCultural++;
+                    }
+                    else if (puntos[j][1].Contains("Corregimiento"))
+                    {
+                        corregimiento++;
+                    }
+                    else if (puntos[j][1].Contains("Vereda"))
+                    {
+                        vereda++;
+                    }
+                    else
+                    {
+                        otro++;
+                    }
+
+                }
+                dic.Add("Parques", parques);
+                dic.Add("Museos", museos);
+                dic.Add("Zonas Culturales", casaCultural);
+                dic.Add("Corregimientos", corregimiento);
+                dic.Add("Veredas", vereda);
+                dic.Add("Otras", otro);
+
+                foreach (KeyValuePair<string, int> d in dic)
+                {
+                    chart1.Series["Zonas"].Points.AddXY(d.Key, d.Value);
+                }
+            }
+        }   
+    }
 }
