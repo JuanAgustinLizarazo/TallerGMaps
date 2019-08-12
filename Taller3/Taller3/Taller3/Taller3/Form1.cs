@@ -65,7 +65,7 @@ namespace Taller3
 
                 int b = 5;
 
-                string[][] puntos = new String[150][];
+                string[][] puntos = new String[110][];
 
                 int contador = 0;
 
@@ -76,6 +76,7 @@ namespace Taller3
                         line = file.ReadLine();
                     }
                     gru = line.Split(',');
+                
 
                     for (int i = 0; i < gru.Length; i++)
                     {
@@ -115,10 +116,10 @@ namespace Taller3
             }
 
         }
-        public void siguienteEtapa()
+        public void siguienteEtapa() 
         {
-            primerPanel.Hide();
-            primerPanel.Enabled = false;
+            //primerPanel.Hide();
+            primerPanel.Enabled = true;
             gMap.Visible = true;
             gMap.Enabled = true;
             listaEleccion.Visible = true;

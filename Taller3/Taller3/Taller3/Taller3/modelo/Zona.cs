@@ -94,21 +94,28 @@ namespace Taller3.modelo
 
                         string auxiliar = oI[num][i];
                         auxiliar = auxiliar.Replace("\"", "");
+                        auxiliar =auxiliar.Replace("(", "");
+                        auxiliar=auxiliar.Replace(")", "");
+                        
+
                         StringBuilder sb = new StringBuilder(auxiliar);
-                        sb.Remove(0, 1);
+                        //sb.Remove(0, 1);
                         auxiliar = sb.ToString();
                         string auxiliar2 = auxiliar.Replace('.', ',');
-                        //coordenada1 = Double.Parse(auxiliar2); 
+                       coordenada1 = Double.Parse(auxiliar2);
+                       
                     }
                     if (i == 4)
                     {
                         string auxiliar = oI[num][i];
                         auxiliar = auxiliar.Replace("\"", "");
+                        auxiliar = auxiliar.Replace("(", "");
                         auxiliar = auxiliar.Replace(")", "");
+                        //Console.WriteLine(auxiliar);
                         StringBuilder sb = new StringBuilder(auxiliar);
-                        sb.Remove(auxiliar.Length - 1, 1);
+                        //sb.Remove(auxiliar.Length - 1, 1);
                         string auxiliar2 = auxiliar.Replace('.', ',');
-                        //coordenada2 = Double.Parse(auxiliar2);
+                        coordenada2 = Double.Parse(auxiliar2);
                     }
                 }
             }
